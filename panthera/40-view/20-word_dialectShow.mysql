@@ -1,0 +1,5 @@
+CREATE OR REPLACE VIEW word_dialectShow AS SELECT
+    `word_dialects`.`id` AS `id`,
+    `word_dialects`.`dialect` AS `dialect`
+  FROM `word_dialects`
+    ORDER BY `word_dialects`.`id` DESC;

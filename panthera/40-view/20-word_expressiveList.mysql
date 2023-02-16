@@ -1,0 +1,7 @@
+CREATE OR REPLACE VIEW word_expressiveList AS SELECT
+    `link_word_expressive-word_dialect`.`expressive` AS `id`,
+    GROUP_CONCAT(`word_dialects`.`dialect` SEPARATOR ' ') AS `expressive` 
+      FROM `link_word_expressive-word_dialect`
+      LEFT JOIN `word_dialects`
+      ON `word_dialects`.`id` = `link_word_expressive-word_dialect`.`dialect`
+      GROUP BY  `link_word_expressive-word_dialect`.`expressive`;

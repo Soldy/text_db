@@ -1,0 +1,50 @@
+CREATE OR REPLACE FUNCTION `word_expressiveAdd`(
+  IEXPRESSIVE VARCHAR(255)
+) RETURNS INT
+BEGIN
+    DECLARE expressive_id INT UNSIGNED; 
+    DECLARE dialect_id INT UNSIGNED; 
+    DECLARE expressive_length INT UNSIGNED;
+    DECLARE expressive_left VARCHAR(255);
+    DECLARE expressive_word VARCHAR(255);
+    DECLARE expressive_next VARCHAR(255);
+    DECLARE a INT;
+    DECLARE b INT;
+    SELECT `id` FROM word_expressiveList WHERE expressive = IEXPRESSIVE INTO expressive_id;
+    IF expressive_id IS NULL THEN 
+        SET expressive_length = 0;
+        SET a = 1;
+        SET b = 2;
+        SELECT CHAR_LENGTH(IEXPRESSIVE) INTO a;
+        INSERT INTO `word_expressives`() VALUES ();
+        SELECT LAST_INSERT_ID() INTO expressive_id;
+        WHILE TRUE DO
+            SET expressive_length = expressive_length + 1;
+            SELECT word_expressiveSplit(
+              IEXPRESSIVE,
+              expressive_length
+            ) INTO expressive_word;
+            SELECT `word_dialectAdd`(
+                LOWER(
+                  expressive_word
+                )
+            ) INTO dialect_id;
+            INSERT INTO `link_word_expressive-word_dialect`
+                (
+                  expressive,
+                  serial,
+                  dialect
+                ) VALUES (
+                  expressive_id,
+                  expressive_length,
+                  dialect_id
+                );
+            SELECT SUBSTRING_INDEX(IEXPRESSIVE, ' ', expressive_length) INTO expressive_left;
+            SELECT CHAR_LENGTH(expressive_left) INTO b;
+            IF a = b THEN
+                RETURN expressive_id;
+            END IF;
+        END WHILE;
+    END IF;
+    RETURN expressive_id;
+END

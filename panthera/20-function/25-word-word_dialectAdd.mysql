@@ -1,0 +1,31 @@
+CREATE OR REPLACE FUNCTION `word-word_dialectAdd`(
+  IWORDID INT UNSIGNED,
+  IDIALECT VARCHAR(128) CHARSET utf8
+) RETURNS INT MODIFIES SQL DATA
+BEGIN
+    DECLARE dialect_id INT UNSIGNED; 
+    DECLARE counted INT UNSIGNED; 
+    SELECT
+       `word_dialectAdd`(IDIALECT)
+      INTO
+        dialect_id 
+      LIMIT 1;
+    SELECT count(`dialect`)
+      FROM 
+        `link_word-word_dialects`
+       WHERE 
+           `link_word-word_dialects`.`word` = IWORDID
+        AND
+           `link_word-word_dialects`.`dialect` = dialect_id 
+       LIMIT 1;
+    IF 1 > counted THEN 
+        INSERT INTO `link_word-word_dialects`(
+            `link_word-word_dialects`.`word`,
+            `link_word-word_dialects`.`dialect`,
+        ) VALUES (
+            IWORDID,
+            dialect_id
+        );
+    END IF;
+    RETURN 1;
+END;

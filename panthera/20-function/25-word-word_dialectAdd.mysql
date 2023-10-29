@@ -11,6 +11,8 @@ BEGIN
         dialect_id 
       LIMIT 1;
     SELECT count(`dialect`)
+      INTO 
+        counted
       FROM 
         `link_word-word_dialects`
        WHERE 
@@ -18,10 +20,10 @@ BEGIN
         AND
            `link_word-word_dialects`.`dialect` = dialect_id 
        LIMIT 1;
-    IF 1 > counted THEN 
+    IF counted IS NULL THEN 
         INSERT INTO `link_word-word_dialects`(
             `link_word-word_dialects`.`word`,
-            `link_word-word_dialects`.`dialect`,
+            `link_word-word_dialects`.`dialect`
         ) VALUES (
             IWORDID,
             dialect_id

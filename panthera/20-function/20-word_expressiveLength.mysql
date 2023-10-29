@@ -1,0 +1,25 @@
+CREATE OR REPLACE FUNCTION `word_expressiveLength`(
+  IEXPRESSIVE VARCHAR(255)
+) RETURNS INT
+BEGIN
+    DECLARE expressive_id INT UNSIGNED; 
+    DECLARE dialect_id INT UNSIGNED; 
+    DECLARE expressive_length INT UNSIGNED;
+    DECLARE expressive_left VARCHAR(255);
+    DECLARE expressive_next VARCHAR(255);
+    DECLARE a INT;
+    DECLARE b INT;
+    SET expressive_length = 1;
+    SET a = 1;
+    SET b = 2;
+    SELECT CHAR_LENGTH(IEXPRESSIVE) INTO a;
+    SELECT LAST_INSERT_ID() INTO expressive_id;
+    WHILE TRUE DO
+        IF a = b THEN
+            RETURN expressive_length;
+        END IF;
+        SELECT SUBSTRING_INDEX(IEXPRESSIVE, ' ', expressive_length) INTO expressive_left;
+        SELECT CHAR_LENGTH(expressive_left) INTO b;
+        SET expressive_length = expressive_length + 1;
+    END WHILE;
+END

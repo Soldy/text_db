@@ -1,0 +1,28 @@
+CREATE OR REPLACE FUNCTION `langAddToWord`(
+  ILANG INT UNSIGNED,
+  IWORD BIGINT UNSIGNED
+) RETURNS SMALLINT MODIFIES SQL DATA
+BEGIN
+    DECLARE lang_id INT UNSIGNED; 
+    SELECT `lang`
+      INTO 
+        lang_id 
+      FROM 
+        `link_word-langs`
+       WHERE 
+        `link_word-langs`.`word` = IWORD
+       AND
+        `link_word-langs`.`lang` = ILANG
+       LIMIT 1;
+    IF lang_id IS NULL THEN 
+        INSERT INTO `link_word-langs` (
+          `link_word-langs`.`word`,
+          `link_word-langs`.`lang`
+        ) VALUES (
+          IWORD,
+          ILANG
+        );
+        RETURN 1;
+    END IF;   
+    RETURN 0;
+END

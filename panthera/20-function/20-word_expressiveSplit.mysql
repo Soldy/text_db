@@ -1,0 +1,17 @@
+CREATE OR REPLACE FUNCTION `word_expressiveSplit`(
+  IEXPRESSIVE VARCHAR(255),
+  INUM INT
+) RETURNS VARCHAR(255)
+BEGIN
+    DECLARE expressive_left VARCHAR(255);
+    SELECT SUBSTRING_INDEX(
+      IEXPRESSIVE,
+      ' ',
+      INUM
+    ) INTO expressive_left;
+    RETURN (SELECT SUBSTRING_INDEX(
+      expressive_left,
+      ' ',
+      -1
+    ));
+END

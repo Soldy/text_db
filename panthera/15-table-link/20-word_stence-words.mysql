@@ -1,0 +1,4 @@
+CREATE TABLE `link_word_stence-words` (
+    `stence` BIGINT UNSIGNED NOT NULL,
+    `word` BIGINT UNSIGNED NOT NULL
+)  ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

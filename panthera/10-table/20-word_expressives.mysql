@@ -1,5 +1,4 @@
 CREATE TABLE `word_expressives` (
-    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-     UNIQUE KEY `id` (`id`),
+    `id` SERIAL,
      KEY `index` (`id`)
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
